@@ -5,7 +5,8 @@ import {
   type DocumentoFiscalJSON,
 } from './documento-fiscal-schema';
 
-const ajv = new Ajv({ allErrors: true, verbose: true });
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const ajv = new Ajv({ allErrors: true, verbose: true }) as any;
 addFormats(ajv);
 
 const validate = ajv.compile(documentoFiscalSchema);
@@ -19,7 +20,7 @@ export interface FieldError {
 }
 
 /** Result of `validateDocumentoFiscal`. */
-export interface ValidationResult {
+export interface SchemaValidationResult {
   valid: boolean;
   errors: FieldError[];
 }
@@ -131,14 +132,14 @@ function fieldName(path: string): string {
  * @param json - The unknown input to validate
  * @returns ValidationResult
  */
-export function validateDocumentoFiscal(json: unknown): ValidationResult {
+export function validateDocumentoFiscal(json: unknown): SchemaValidationResult {
   const valid = validate(json);
 
   if (valid) {
     return { valid: true, errors: [] };
   }
 
-  const errors: FieldError[] = (validate.errors ?? []).map((err) =>
+  const errors: FieldError[] = (validate.errors ?? []).map((err: unknown) =>
     formatFieldError(err as Parameters<typeof formatFieldError>[0]),
   );
 

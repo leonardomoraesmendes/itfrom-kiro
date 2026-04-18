@@ -1,4 +1,4 @@
-import type { JSONSchemaType } from 'ajv';
+// Schema type removed to avoid ajv version incompatibility in strict tsc builds
 
 /**
  * Representação JSON-serializada do DocumentoFiscal.
@@ -53,7 +53,7 @@ export interface ImpostoJSON {
   valor: number;
 }
 
-export const documentoFiscalSchema: JSONSchemaType<DocumentoFiscalJSON> = {
+export const documentoFiscalSchema = {
   $schema: 'http://json-schema.org/draft-07/schema#',
   type: 'object',
   required: [

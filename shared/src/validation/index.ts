@@ -8,6 +8,6 @@ export {
 export {
   validateDocumentoFiscal,
   parseDocumentoFiscal,
-  type ValidationResult,
+  type SchemaValidationResult,
   type FieldError,
 } from './documento-fiscal-validator';
