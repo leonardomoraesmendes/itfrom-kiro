@@ -466,6 +466,52 @@ cd frontend && npx vite
 
 ---
 
+## Docker
+
+### Arquivos
+
+| Arquivo | Descrição |
+|---|---|
+| `backend/Dockerfile` | Multi-stage: deps → build → runtime com Node.js 20 Alpine + tsx |
+| `frontend/Dockerfile` | Multi-stage: deps → Vite build → nginx 1.27 Alpine para servir SPA |
+| `frontend/nginx.conf` | Proxy reverso `/api/` → backend, SPA fallback, gzip, cache |
+| `docker-compose.yml` | Orquestra backend + frontend com health check |
+| `.dockerignore` | Exclui node_modules, testes, docs do contexto de build |
+
+### Subir com Docker Compose
+
+```bash
+# Build e start
+docker-compose up --build
+
+# Em background
+docker-compose up --build -d
+
+# Parar
+docker-compose down
+```
+
+### URLs (Docker)
+
+| Serviço | URL |
+|---|---|
+| Frontend (SPA) | http://localhost |
+| Backend API (direto) | http://localhost:3000 |
+| OpenAPI Docs (via frontend) | http://localhost/docs |
+| Health Check | http://localhost/health |
+
+### Build Individual
+
+```bash
+# Backend
+docker build -f backend/Dockerfile -t ap-automation-backend .
+
+# Frontend
+docker build -f frontend/Dockerfile -t ap-automation-frontend .
+```
+
+---
+
 ## Licença
 
 Projeto interno — uso restrito.
